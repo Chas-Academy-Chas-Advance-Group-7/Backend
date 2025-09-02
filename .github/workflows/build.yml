@@ -1,0 +1,25 @@
+name: CI #namnet på ens workflow
+
+on: #Vad som triggar en workflow
+  push:
+    branches: ["dev"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs: #jobs är stegen som körs sekvent av en virtuell maskin
+  build:
+    runs-on: ubuntu-latest
+    steps: # steg i pipelinen
+      - uses: actions/checkout@v3 #Hämtar koden från repot
+      - name: Use Node.js
+        uses: actions/setup-node@v3 #Sätter upp e node enviroment med v20
+        with:
+          node-version: "20"
+
+      - name: packageInstall
+        run: npm install
+      - name: build
+        run: npm run build
+      - name: typecheck
+        run: npm run typecheck

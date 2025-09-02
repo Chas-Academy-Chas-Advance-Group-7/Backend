@@ -1,0 +1,20 @@
+name: logs
+
+on:
+  push:
+    branches: ["master", "dev"]
+
+jobs:
+  log-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: logs
+        run: |
+          echo "::group::My logs"
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+          echo "Push/pull event name: ${{ github.event_name }}"
+          echo "Commit timestamp: ${{ github.event.head_commit.timestamp }}"
+          echo "Branch: ${{github.ref}}"
+          echo "Pusher email: ${{ github.event.pusher.email }}"
+          echo "Commit tree: ${{ github.event.head_commit.tree_id }}"
+          echo "::endgroup::"
