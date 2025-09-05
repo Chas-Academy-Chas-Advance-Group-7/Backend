@@ -2,7 +2,7 @@ name: CI #namnet på ens workflow
 
 on: #Vad som triggar en workflow
   push:
-    branches: ["dev"]
+    branches: ["dev", "feature"]
   pull_request:
     branches: ["master"]
   workflow_dispatch:
