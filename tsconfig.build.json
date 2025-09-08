@@ -1,0 +1,13 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"emitDeclarationOnly": false,
+		"declaration": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"target": "esnext"
+	},
+	"include": ["src"]
+}

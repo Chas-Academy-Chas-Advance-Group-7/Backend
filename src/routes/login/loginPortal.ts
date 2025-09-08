@@ -1,9 +1,13 @@
+//* ROUTE FOR ALL LOGIN AND ACCOUNTS ACTIONS FOR USERS AND DRIVERS
 import express, { Router } from "express";
 import userLogin from "./userLogin.ts";
 import driverLogin from "./driverLogin.ts";
 const loginPortal = express.Router();
-// This route facilitates all the login and register CRUD-operations for all
-//* users and drivers
+
+//* MIDDLEWARE FOR ROUTES
+// LOGISTICS/WAREHOUSE ROUTE
+//? - POST | Create Logistics/Warehouse account
+//? - POST | Login Logistics/Warehouse account
 
 loginPortal.use("/user_login", userLogin);
 loginPortal.use("/driver_login", driverLogin);

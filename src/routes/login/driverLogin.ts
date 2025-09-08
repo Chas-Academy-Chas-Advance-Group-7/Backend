@@ -1,3 +1,4 @@
+//* ROUTE FOR ALL LOGIN AND ACCOUNTS ACTIONS FOR DRIVER
 import express, { Router } from "express";
 
 const driverLogin: Router = express.Router();
@@ -8,8 +9,11 @@ driverLogin.get("/", (_req, res) => {
 	});
 });
 
-//POST | Register driver account
+//? - GET | Get driver profile / profile info
 
-//POST | Login for driver account
+//? - PUT | Edit account info for driver
+
+//? - POST | Register driver account
+//? - POST | Login for driver account
 
 export default driverLogin;

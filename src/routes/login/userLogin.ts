@@ -1,3 +1,5 @@
+//* ROUTE FOR ALL LOGIN AND ACCOUNTS ACTIONS FOR USER
+
 import express, { Router } from "express";
 
 const userLogin: Router = express.Router();
@@ -8,8 +10,11 @@ userLogin.get("/", (_req, res) => {
 	});
 });
 
-//POST | Register user account
+//? - GET | Get user profile / profile info
 
-//POST | Login for user account
+//? - PUT | Edit account info for user
+
+//? - POST | Register user account
+//? - POST | Login for user account
 
 export default userLogin;

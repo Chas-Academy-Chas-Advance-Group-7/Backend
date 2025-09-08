@@ -4,7 +4,7 @@ dotenv.config();
 
 import loginPortal from "./routes/login/loginPortal.ts";
 import userPortal from "./routes/userRoutes/userPortal.ts";
-import driverPortal from "./routes/driverRoutes/driverPortal.ts";
+import employeePortal from "./routes/driverRoutes/employeePortal.ts";
 // const express = require("express");
 const app = express();
 const port = process.env.PORT;
@@ -16,7 +16,7 @@ app.use(express.json());
 // Router for all login CRUD-operations
 app.use("/login_portal", loginPortal);
 // Route for all driver CRUD-operations
-app.use("/driver_portal", driverPortal);
+app.use("/employee_portal", employeePortal);
 // Route for all user CRUD-operations
 app.use("/user_portal", userPortal);
 
