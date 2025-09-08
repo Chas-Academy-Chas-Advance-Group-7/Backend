@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
-import loginPortal from "./routes/login/loginPortal";
-import userPortal from "./routes/userRoutes/userPortal";
-import driverPortal from "./routes/driverRoutes/driverPortal";
+import loginPortal from "./routes/login/loginPortal.ts";
+import userPortal from "./routes/userRoutes/userPortal.ts";
+import driverPortal from "./routes/driverRoutes/driverPortal.ts";
 // const express = require("express");
 const app = express();
 const port = process.env.PORT;
@@ -21,9 +21,9 @@ app.use("/driver_portal", driverPortal);
 app.use("/user_portal", userPortal);
 
 app.get("/", (_req, res) => {
-  res.send("Hello World!");
+	res.send("Hello World!");
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+	console.log(`Example app listening on port ${port}`);
 });
