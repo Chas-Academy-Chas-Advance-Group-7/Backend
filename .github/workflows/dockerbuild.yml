@@ -2,7 +2,7 @@ name: dockerhub build
 
 on:
   push:
-    branches: ["dev", "feature"]
+    branches: ["dev", "feature", "feature-db"]
   pull_request:
     branches: ["main"]
   workflow_dispatch:
