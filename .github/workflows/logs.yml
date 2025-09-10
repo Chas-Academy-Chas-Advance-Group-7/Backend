@@ -2,7 +2,7 @@ name: logs
 
 on:
   push:
-    branches: ["master", "dev", "feature"]
+    branches: ["main", "dev", "feature"]
 
 jobs:
   log-job:

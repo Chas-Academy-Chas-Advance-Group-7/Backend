@@ -4,7 +4,7 @@ on: #Vad som triggar en workflow
   push:
     branches: ["dev", "feature"]
   pull_request:
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs: #jobs är stegen som körs sekvent av en virtuell maskin
