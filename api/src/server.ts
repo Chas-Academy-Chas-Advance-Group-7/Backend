@@ -35,7 +35,7 @@ const swaggerDocs = YAML.load(path.resolve("./src/swagger/swagger.yaml"));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-//*Routing middleware
+//*Routing Middleware
 // Router for all login CRUD-operations
 app.use("/login_portal", loginPortal);
 // Route for all driver CRUD-operations
