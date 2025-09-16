@@ -6,7 +6,7 @@ const userLogin: Router = express.Router();
 
 userLogin.get("/", (_req, res) => {
 	res.status(200).json({
-		message: "Välkommen till användar login",
+		message: "Välkommen till user login routen",
 	});
 });
 

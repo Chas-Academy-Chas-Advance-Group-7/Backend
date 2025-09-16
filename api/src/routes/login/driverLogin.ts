@@ -5,7 +5,7 @@ const driverLogin: Router = express.Router();
 
 driverLogin.get("/", (_req, res) => {
 	res.status(200).json({
-		message: "Välkommen till användar login",
+		message: "Välkommen till driver login routen",
 	});
 });
 

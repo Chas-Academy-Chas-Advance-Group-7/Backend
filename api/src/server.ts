@@ -1,16 +1,39 @@
 import express from "express";
 import dotenv from "dotenv";
+import YAML from "yamljs";
+import path from "path";
+import swaggerUi from "swagger-ui-express";
 dotenv.config();
 
 import loginPortal from "./routes/login/loginPortal.ts";
 import userPortal from "./routes/userRoutes/userPortal.ts";
-import employeePortal from "./routes/driverRoutes/employeePortal.ts";
-// const express = require("express");
+import employeePortal from "./routes/employeeRoutes/employeePortal.ts";
+import packagePortal from "./routes/packageRoutes/packagePortal.ts";
 const app = express();
 const port = process.env.PORT;
 
 //middleware
 app.use(express.json());
+const swaggerOptions = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Chas-advance",
+			description: "this is the api developed during our chas-advance project",
+			version: "0.1.0",
+		},
+		servers: [
+			{
+				url: `http://localhost:${port}`,
+				description: "This is a local dev server for documentation",
+			},
+		],
+	},
+	apis: ["./routes/*.ts"],
+};
+const swaggerDocs = YAML.load(path.resolve("./src/swagger/swagger.yaml"));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //*Routing middleware
 // Router for all login CRUD-operations
@@ -19,9 +42,13 @@ app.use("/login_portal", loginPortal);
 app.use("/employee_portal", employeePortal);
 // Route for all user CRUD-operations
 app.use("/user_portal", userPortal);
+// Route for all tracking/sensor CRUD-operations
+app.use("package_portal", packagePortal);
 
 app.get("/", (_req, res) => {
-	res.send("Hello World!");
+	res
+		.status(200)
+		.json({ message: "Welcome to the internet, have a look around" });
 });
 
 app.listen(port, () => {

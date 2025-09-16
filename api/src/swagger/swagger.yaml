@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  title: Chas-advance
+  description: This is a server for a badly planned project the school is forcing us to do
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:3000/
+    description: This is the current testing and production environment for this API
+
+paths:
+  /:
+    get:
+      tags:
+        - Welcome
+      summary: Welcome route
+      description: Returns a welcome message to confirm the server is running
+      responses:
+        "200":
+          description: Server is up and responding
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Welcome to the internet, have a look around
+
+  /loginportal:
+    get:
+      tags:
+        - login
+      summary: Welcome route for logins
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying it's working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till login portalen
+
+  /loginportal/user_login:
+    get:
+      tags:
+        - login
+      summary: Welcome route for user logins
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying it's working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till user login routen
+
+  /loginportal/driver_login:
+    get:
+      tags:
+        - login
+      summary: Welcome route for driver logins
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying it's working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till driver login routen
+
+  /user_portal:
+    get:
+      tags:
+        - user_portal
+      summary: This route pertains all actions for senders and recievers
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till user portalen
+  /user_portal/sender_route:
+    get:
+      tags:
+        - user_sender
+      summary: This route pertains all actions for senders
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till sender routen
+  /user_portal/reciever_route:
+    get:
+      tags:
+        - user_reciever
+      summary: This route pertains all actions for recievers
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: välkommen till reciever routen
+
+  /package_portal:
+    get:
+      tags:
+        - packages
+      summary: This route pertains all actions for packages
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till paket portalen
+  /package_portal/tracking_packages:
+    get:
+      tags:
+        - packages-tracking
+      summary: This route pertains all actions for tracking packages
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till tracking routen
+  /package_portal/sensor_packages:
+    get:
+      tags:
+        - packages-sensor
+      summary: This route pertains all actions for package sensors
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: välkommen till sensor routen
+  /employee_portal:
+    get:
+      tags:
+        - employee_portal
+      summary: This route pertains all actions for employees
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till employee portalen
+  /employee_portal/driver_routes:
+    get:
+      tags:
+        - employee_driver
+      summary: This route pertains all actions for drivers
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till driver routen
+  /employee_portal/warehouse_routes:
+    get:
+      tags:
+        - employee_warehouse
+      summary: This route pertains all actions for the warehouse
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till warehouse routen
