@@ -29,3 +29,7 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         run: |
           cd api  
           npm run build
+  build2:
+    runs-on: ubuntu-latest
+    needs: build
+    #Flytta docker build hit!!!!
