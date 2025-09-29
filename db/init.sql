@@ -1,63 +1,70 @@
-CREATE TABLE users (
-  "id" integer PRIMARY KEY,
-  "email" varchar,
-  "password" varchar,
-  "user_name" varchar,
-  "role" varchar
+-- Optional: clean slate
+DROP TABLE IF EXISTS package_sensors CASCADE;
+DROP TABLE IF EXISTS sensor_reading CASCADE;
+DROP TABLE IF EXISTS delivery_point CASCADE;
+DROP TABLE IF EXISTS Paket CASCADE;
+DROP TABLE IF EXISTS drivers CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+-- USERS
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR,
+  password VARCHAR,
+  user_name VARCHAR,
+  role VARCHAR
 );
 
-CREATE TABLE drivers (
-  "id" integer PRIMARY KEY,
-  "truck_id" integer,
-  "name" varchar,
-  "email" varchar,
-  "password" varchar,
-  "location" string
+-- DRIVERS
+CREATE TABLE IF NOT EXISTS drivers (
+  id SERIAL PRIMARY KEY,
+  truck_id INTEGER,
+  name VARCHAR,
+  email VARCHAR,
+  password VARCHAR,
+  location TEXT
 );
 
-CREATE TABLE Paket (
-  "paket_id" integer PRIMARY KEY,
-  "sender" varchar,
-  "sender_id" integer,
-  "receiver_id" varchar,
-  "receiver_num" integer,
-  "drive_start" Date,
-  "truck_id" integer,
-  "sensor_id" integer,
-  "temperature" number,
-  "humidity" number,
-  "sensor_timestamp" number
+-- DELIVERY POINT
+CREATE TABLE IF NOT EXISTS delivery_point (
+  address VARCHAR,
+  postnummer VARCHAR,
+  city VARCHAR,
+  parcel_id INTEGER PRIMARY KEY
 );
 
-CREATE TABLE delivery_point (
-  "address" VARCHAR,
-  "postnummer" VARCHAR,
-  "city" VARCHAR,
-  "parcel_id" integer
+-- SENSOR READING
+CREATE TABLE IF NOT EXISTS sensor_reading (
+  id SERIAL PRIMARY KEY,
+  package_id INTEGER,
+  sensor_id INTEGER,
+  temperature INTEGER,
+  humidity INTEGER,
+  timestamp DATE
 );
 
-CREATE TABLE package_sensors (
-  "id" integer PRIMARY KEY,
-  "paket_id" integer,
-  "temperature" integer,
-  "humidity" integer
+-- PAKET
+CREATE TABLE IF NOT EXISTS package (
+  paket_id SERIAL PRIMARY KEY,
+  sender VARCHAR,
+  sender_id INTEGER,
+  receiver_id VARCHAR,
+  receiver_num INTEGER,
+  drive_start DATE,
+  truck_id INTEGER,
+  sensor_id INTEGER,
+  temperature NUMERIC,
+  humidity NUMERIC,
+  sensor_timestamp NUMERIC,
+  parcel_id INTEGER REFERENCES delivery_point(parcel_id),
+  sensor_reading_id INTEGER REFERENCES sensor_reading(id)
 );
 
-CREATE TABLE sensor_reading (
-  "id" integer PRIMARY KEY,
-  "package_id" integer,
-  "sensor_id" integer,
-  "temperature" integer,
-  "humidity" integer,
-  "timestamp" date
+-- PACKAGE SENSORS
+CREATE TABLE IF NOT EXISTS package_sensors (
+  id SERIAL PRIMARY KEY,
+  paket_id INTEGER,
+  temperature INTEGER,
+  humidity INTEGER,
+  FOREIGN KEY (paket_id) REFERENCES Paket(paket_id)
 );
-
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "Paket" ("receiver_id");
-
-ALTER TABLE "users" ADD FOREIGN KEY ("id") REFERENCES "Paket" ("sender_id");
-
-ALTER TABLE "Paket" ADD FOREIGN KEY ("paket_id") REFERENCES "delivery_point" ("parcel_id");
-
-ALTER TABLE "Paket" ADD FOREIGN KEY ("paket_id") REFERENCES "sensor_reading" ("package_id");
-
-ALTER TABLE "package_sensors" ADD FOREIGN KEY ("paket_id") REFERENCES "sensor_reading" ("sensor_id");
