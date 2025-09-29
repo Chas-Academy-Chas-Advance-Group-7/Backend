@@ -1,0 +1,39 @@
+name: Azure setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  azure_login:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Log in to Azure Container Registry
+        run: |
+          docker login ${{ secrets.ACR_URL }} -u ${{ secrets.ACRUSERNAME }} -p ${{ secrets.ACRPASSWORD1 }}
+
+      - name: Build and test API image
+        run: |
+          docker build -t ${{ secrets.ACR_URL }}/api:latest ./api
+          docker run --rm ${{ secrets.ACR_URL }}/api:latest npm test
+
+      - name: Push Docker image to ACR
+        run: |
+          docker push ${{ secrets.ACR_URL }}/api:latest
+
+  postgres_build:
+    needs: azure_login
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Run init.sql against Azure Db
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+        run: |
+          psql "host=$PGHOST dbname=$PGDATABASE user=$PGUSER password=$PGPASSWORD" -f db/init.sql
