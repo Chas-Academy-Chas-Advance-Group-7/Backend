@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Log in to Azure Container Registry
         run: |
           docker login ${{ secrets.ACR_URL }} -u ${{ secrets.ACRUSERNAME }} -p ${{ secrets.ACRPASSWORD1 }}
 
       - name: Build and test API image
         run: |
-          docker build -t ${{ secrets.ACR_URL }}/api:latest ./api
+          docker build -t ${{ secrets.ACR_URL }}/api:latest ../api
           docker run --rm ${{ secrets.ACR_URL }}/api:latest npm test
 
       - name: Push Docker image to ACR
@@ -28,6 +31,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
