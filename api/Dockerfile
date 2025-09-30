@@ -12,4 +12,4 @@ RUN npm run build  # Pre-compile TypeScript during build
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run ", "start"]
