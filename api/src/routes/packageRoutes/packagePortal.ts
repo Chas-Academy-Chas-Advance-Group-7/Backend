@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import trackingRoute from "./trackingRoutes/trackingRoutes.ts";
-import sensorRoute from "./sensor/sensorRoutes.ts";
+import trackingRoute from "./trackingRoutes/trackingRoutes.js";
+import sensorRoute from "./sensor/sensorRoutes.js";
 const packagePortal = express.Router();
 
 //route middleware

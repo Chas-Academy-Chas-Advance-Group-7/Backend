@@ -5,10 +5,10 @@ import path from "path";
 import swaggerUi from "swagger-ui-express";
 dotenv.config();
 
-import loginPortal from "./routes/login/loginPortal.ts";
-import userPortal from "./routes/userRoutes/userPortal.ts";
-import employeePortal from "./routes/employeeRoutes/employeePortal.ts";
-import packagePortal from "./routes/packageRoutes/packagePortal.ts";
+import loginPortal from "./routes/login/loginPortal.js";
+import userPortal from "./routes/userRoutes/userPortal.js";
+import employeePortal from "./routes/employeeRoutes/employeePortal.js";
+import packagePortal from "./routes/packageRoutes/packagePortal.js";
 const app = express();
 const port = process.env.PORT;
 

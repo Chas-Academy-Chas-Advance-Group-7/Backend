@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import warehouseRoute from "./warehouseRoutes/warehouseRoutes.ts";
-import driverRoute from "./driverRoutes.ts/driverRoutes.ts";
+import warehouseRoute from "./warehouseRoutes/warehouseRoutes.js";
+import driverRoute from "./driverRoutes.ts/driverRoutes.js";
 
 const employeePortal: Router = express.Router();
 
