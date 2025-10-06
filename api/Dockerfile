@@ -10,6 +10,6 @@ COPY . .
 
 RUN npm run build  # Pre-compile TypeScript during build
 
-EXPOSE 3000
+EXPOSE 80
 
-CMD ["npm", "start"]
+CMD ["npm", "dist/server.js"]
