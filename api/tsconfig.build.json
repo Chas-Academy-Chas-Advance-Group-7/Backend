@@ -2,11 +2,12 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
-		"noEmit": true,
+		"noEmit": false,
 		"emitDeclarationOnly": false,
 		"declaration": true,
 		"sourceMap": true,
-		"outDir": "./dist",
+		"outDir": "dist",
+		"rootDir": "src",
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"target": "esnext"
