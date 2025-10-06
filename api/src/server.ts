@@ -1,3 +1,4 @@
+console.log("Server file loaded, starting Express...");
 import express from "express";
 import dotenv from "dotenv";
 import YAML from "yamljs";
@@ -10,7 +11,7 @@ import userPortal from "./routes/userRoutes/userPortal.js";
 import employeePortal from "./routes/employeeRoutes/employeePortal.js";
 import packagePortal from "./routes/packageRoutes/packagePortal.js";
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 80;
 
 //middleware
 app.use(express.json());
