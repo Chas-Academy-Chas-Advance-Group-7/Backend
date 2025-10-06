@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test:
         ["CMD-SHELL", "pg_isready -U postgres -d chas_advance_db -h localhost"]
@@ -19,15 +19,11 @@ services:
       retries: 5
 
   express-api:
-    depends_on:
-  postgres_db:
-    condition: service_healthy
-
     build: ./api
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       postgres_db:
         condition: service_healthy
