@@ -6,7 +6,8 @@ COPY package*.json tsconfig.json tsconfig.build.json nodemon.json ./
 
 RUN npm install
 
-COPY . .
+COPY src ./src
+COPY db ./db
 
 RUN npm run build  # Pre-compile TypeScript during build
 
