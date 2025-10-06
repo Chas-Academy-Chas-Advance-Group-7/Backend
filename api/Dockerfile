@@ -12,4 +12,4 @@ RUN npm run build  # Pre-compile TypeScript during build
 
 EXPOSE 80
 
-CMD ["npm", "dist/server.js"]
+CMD ["node", "dist/server.js"]

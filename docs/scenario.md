@@ -29,6 +29,3 @@ När paketet tas emot scannas fraktsedeln i mobilappen, loggningen avslutas och 
 Den logistikansvariga hos beställaren har en mer avancerad roll.
 Här ingår översikter per lastbil, kund och tidsperiod, samt filtrering på t.ex. brutna kylkedjor.
 Denna roll är inte prioriterad i prototypen, men kan utvecklas vidare eller anpassas från avsändarens/mottagarens vyer.
-
-postgres
-PoctGres!23
