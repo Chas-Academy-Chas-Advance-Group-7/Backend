@@ -1,0 +1,25 @@
+services:
+postgres_db:
+image: postgres:latest
+container_name: PostgresCont
+restart: always
+environment: - POSTGRES_USER=postgres - POSTGRES_PASSWORD=postgres123 - POSTGRES_DB=chas_advance_db
+ports: - "5432:5432"
+volumes: - postgres_data:/var/lib/postgresql/data
+healthcheck:
+test:
+["CMD-SHELL", "pg_isready -U postgres -d chas_advance_db -h localhost"]
+interval: 10s
+timeout: 5s
+retries: 5
+
+express-api:
+build: ./api
+ports: - "3000:80"
+environment: - DATABASE_URL=${DATABASE_URL}
+depends_on:
+postgres_db:
+condition: service_healthy
+
+volumes:
+postgres_data:
