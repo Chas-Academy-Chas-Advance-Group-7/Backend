@@ -2,7 +2,7 @@
 import bcrypt from "bcrypt";
 import express, { Router } from "express";
 
-import pool from "../../../db/db.js";
+import db from "../../../db/db.js";
 import { generateToken } from "../../middlewere/generate_jwt.js";
 import type { jwtPayload } from "../../types/types.js";
 
@@ -23,7 +23,7 @@ driverLogin.post("/register", async (req, res) => {
 	const { email, password, username } = req.body;
 
 	const emailLowerCase = email.trim().toLowerCase();
-	const isRedundantEmail = await pool.query(
+	const isRedundantEmail = await db.pool.query(
 		"SELECT * FROM drivers WHERE email = $1",
 		[emailLowerCase]
 	);
@@ -55,7 +55,7 @@ driverLogin.post("/register", async (req, res) => {
 
 		const hashedPassword = await bcrypt.hash(password, 10);
 
-		const insertDriver = await pool.query(
+		const insertDriver = await db.pool.query(
 			"INSERT INTO drivers (username, email, password) VALUES ($1, $2, $3) RETURNING",
 			[username, emailLowerCase, hashedPassword]
 		);
@@ -95,7 +95,7 @@ driverLogin.post("/login", async (req, res) => {
 	}
 
 	try {
-		const driverResult = await pool.query(
+		const driverResult = await db.pool.query(
 			"SELECT * FROM drivers WHERE email = $1",
 			[lowerCaseEmail]
 		);
