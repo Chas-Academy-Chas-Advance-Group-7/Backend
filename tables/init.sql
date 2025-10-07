@@ -2,34 +2,34 @@
 DROP TABLE IF EXISTS package_sensors CASCADE;
 DROP TABLE IF EXISTS sensor_reading CASCADE;
 DROP TABLE IF EXISTS delivery_point CASCADE;
-DROP TABLE IF EXISTS Paket CASCADE;
+DROP TABLE IF EXISTS package CASCADE;
 DROP TABLE IF EXISTS drivers CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
 -- USERS
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  email VARCHAR,
-  password VARCHAR,
-  user_name VARCHAR,
-  role VARCHAR
+  email TEXT,
+  password TEXT,
+  user_name TEXT,
+  role TEXT
 );
 
 -- DRIVERS
 CREATE TABLE IF NOT EXISTS drivers (
   id SERIAL PRIMARY KEY,
   truck_id INTEGER,
-  name VARCHAR,
-  email VARCHAR,
-  password VARCHAR,
+  name TEXT,
+  email TEXT,
+  password TEXT,
   location TEXT
 );
 
 -- DELIVERY POINT
 CREATE TABLE IF NOT EXISTS delivery_point (
-  address VARCHAR,
-  postnummer VARCHAR,
-  city VARCHAR,
+  address TEXT,
+  postnummer TEXT,
+  city TEXT,
   parcel_id INTEGER PRIMARY KEY
 );
 
@@ -43,12 +43,12 @@ CREATE TABLE IF NOT EXISTS sensor_reading (
   timestamp DATE
 );
 
--- PAKET
+-- PACKAGE
 CREATE TABLE IF NOT EXISTS package (
-  paket_id SERIAL PRIMARY KEY,
-  sender VARCHAR,
+  package_id SERIAL PRIMARY KEY,
+  sender TEXT,
   sender_id INTEGER,
-  receiver_id VARCHAR,
+  receiver_id TEXT,
   receiver_num INTEGER,
   drive_start DATE,
   truck_id INTEGER,
@@ -56,15 +56,15 @@ CREATE TABLE IF NOT EXISTS package (
   temperature NUMERIC,
   humidity NUMERIC,
   sensor_timestamp NUMERIC,
-  parcel_id INTEGER REFERENCES delivery_point(parcel_id),
-  sensor_reading_id INTEGER REFERENCES sensor_reading(id)
+  parcel_id INTEGER REFERENCES delivery_point(parcel_id) ON DELETE SET NULL,
+  sensor_reading_id INTEGER REFERENCES sensor_reading(id) ON DELETE SET NULL
 );
 
 -- PACKAGE SENSORS
 CREATE TABLE IF NOT EXISTS package_sensors (
   id SERIAL PRIMARY KEY,
-  paket_id INTEGER,
+  package_id INTEGER,
   temperature INTEGER,
   humidity INTEGER,
-  FOREIGN KEY (paket_id) REFERENCES Paket(paket_id)
+  FOREIGN KEY (package_id) REFERENCES package(package_id) ON DELETE CASCADE
 );

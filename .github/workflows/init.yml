@@ -25,29 +25,10 @@ jobs:
       - name: Push Docker image to ACR
         run: |
           docker push ${{ secrets.ACR_URL }}/api:latest
+
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: "team7express"
           images: ${{ secrets.ACR_URL }}/api:latest
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-
-  postgres_build:
-    needs: azure_login
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install PostgreSQL client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
-
-      - name: Run init.sql against Azure Db
-        env:
-          PGHOST: ${{ secrets.PGHOST }}
-          PGDATABASE: ${{ secrets.PGDATABASE }}
-          PGUSER: ${{ secrets.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-        run: |
-          psql "host=$PGHOST dbname=$PGDATABASE user=$PGUSER password=$PGPASSWORD" -f db/init.sql

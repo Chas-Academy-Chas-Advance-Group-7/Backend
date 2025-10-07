@@ -5,13 +5,17 @@ import YAML from "yamljs";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
 dotenv.config();
-
+import db from "../db/db.js";
+const { testConnection } = db;
 import loginPortal from "./routes/login/loginPortal.js";
 import userPortal from "./routes/userRoutes/userPortal.js";
 import employeePortal from "./routes/employeeRoutes/employeePortal.js";
 import packagePortal from "./routes/packageRoutes/packagePortal.js";
+
+testConnection();
+
 const app = express();
-const port = process.env.PORT || 80;
+const port = parseInt(process.env.SERVER_PORT ?? process.env.PORT ?? "80", 10);
 
 //middleware
 app.use(express.json());
@@ -53,5 +57,12 @@ app.get("/", (_req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`);
+	app.listen(port, () => {
+		console.log(`Server listening on port ${port}`);
+		console.log("ENV vars:", {
+			SERVER_PORT: process.env.SERVER_PORT,
+			PORT: process.env.PORT,
+			NODE_ENV: process.env.NODE_ENV,
+		});
+	});
 });

@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
 postgres_db:
 image: postgres:latest
@@ -7,8 +9,7 @@ environment: - POSTGRES_USER=postgres - POSTGRES_PASSWORD=postgres123 - POSTGRES
 ports: - "5432:5432"
 volumes: - postgres_data:/var/lib/postgresql/data
 healthcheck:
-test:
-["CMD-SHELL", "pg_isready -U postgres -d chas_advance_db -h localhost"]
+test: ["CMD-SHELL", "pg_isready -U postgres -d chas_advance_db -h localhost"]
 interval: 10s
 timeout: 5s
 retries: 5
@@ -16,7 +17,7 @@ retries: 5
 express-api:
 build: ./api
 ports: - "3000:80"
-environment: - DATABASE_URL=${DATABASE_URL}
+environment: - DATABASE_URL=postgresql://postgres:postgres123@postgres_db:5432/chas_advance_db
 depends_on:
 postgres_db:
 condition: service_healthy
