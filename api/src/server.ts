@@ -1,4 +1,4 @@
-console.log("Server file loaded, starting Express...");
+console.log("Server file loaded, starting Express... Hopefully!");
 import express from "express";
 import dotenv from "dotenv";
 import YAML from "yamljs";
