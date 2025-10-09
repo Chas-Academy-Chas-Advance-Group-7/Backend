@@ -29,6 +29,6 @@ jobs:
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "team7express"
+          app-name: "express-api7"
           images: ${{ secrets.ACR_URL }}/api:latest
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}

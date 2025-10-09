@@ -1,9 +1,9 @@
 version: "2.0"
 
 services:
-  express-api:
+  express-api7:
     build: ./api
-    container_name: express_api
+    container_name: express-api7
     restart: always
     ports:
       - "3000:80"
