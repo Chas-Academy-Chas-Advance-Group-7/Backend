@@ -22,16 +22,14 @@ FROM node:20-alpine AS runtime
 
 WORKDIR /api
 
-# Copy only what is needed to run the built app
 COPY --from=build /api/package*.json ./
 COPY --from=build /api/dist ./dist
 COPY --from=build /api/db ./db
 
-# Install only production dependencies
-RUN npm ci 
+RUN npm ci --production
 
-# Azure App Service expects the container to listen on port 80
+# Let Azure know the container will use this port
+ENV PORT=80
 EXPOSE 80
 
-# Default command
 CMD ["node", "dist/server.js"]
