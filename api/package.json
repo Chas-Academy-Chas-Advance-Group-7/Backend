@@ -1,7 +1,7 @@
 {
 	"name": "backend",
 	"version": "1.0.0",
-	"description": "",
+	"description": "hello description, this is the server for chas advance",
 	"main": "server.js",
 	"scripts": {
 		"test": "echo \"Tests passed\"",

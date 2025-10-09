@@ -1,0 +1,14 @@
+//* ROUTE FOR ALL LOGIN AND ACCOUNTS ACTIONS FOR USER
+import express, { Router } from "express";
+const userLogin = express.Router();
+userLogin.get("/", (_req, res) => {
+    res.status(200).json({
+        message: "Välkommen till user login routen",
+    });
+});
+//? - GET | Get user profile / profile info
+//? - PUT | Edit account info for user
+//? - POST | Register user account
+//? - POST | Login for user account
+export default userLogin;
+//# sourceMappingURL=userLogin.js.map
