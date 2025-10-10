@@ -26,9 +26,11 @@ WORKDIR /api
 COPY --from=build /api/package*.json ./
 COPY --from=build /api/dist ./dist
 COPY --from=build /api/db ./db
+COPY --from=build /api/src/swagger ./src/swagger
 
 # Install only production dependencies
-RUN npm ci --production
+RUN npm ci 
+# --production
 
 # Azure expects the container to listen on PORT
 ENV PORT=80
