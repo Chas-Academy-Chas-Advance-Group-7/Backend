@@ -35,4 +35,4 @@ ENV PORT=80
 EXPOSE 80
 
 # Start the server
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/src/server.js"]
