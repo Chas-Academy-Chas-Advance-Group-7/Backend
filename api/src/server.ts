@@ -60,7 +60,7 @@ app.get("/", (_req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
+	console.log(`Server is listening on port ${port}`);
 	console.log("ENV vars:", {
 		SERVER_PORT: process.env.SERVER_PORT,
 		PORT: process.env.PORT,
