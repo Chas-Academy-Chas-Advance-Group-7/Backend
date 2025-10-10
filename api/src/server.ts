@@ -15,10 +15,8 @@ import packagePortal from "./routes/packageRoutes/packagePortal.js";
 testConnection();
 
 const app = express();
-const port = parseInt(
-	process.env.PORT ?? process.env.SERVER_PORT ?? "3000",
-	10
-);
+
+const port = parseInt(process.env.PORT || "3000", 10);
 
 //middleware
 app.use(express.json());
