@@ -21,21 +21,21 @@ const port = parseInt(process.env.PORT || "3000", 10);
 //middleware
 app.use(express.json());
 const swaggerOptions = {
-	definition: {
-		openapi: "3.0.0",
-		info: {
-			title: "Chas-advance",
-			description: "this is the api developed during our chas-advance project",
-			version: "0.1.0",
-		},
-		servers: [
-			{
-				url: `http://localhost:${port}`,
-				description: "This is a local dev server for documentation",
-			},
-		],
-	},
-	apis: ["./routes/*.ts"],
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Chas-advance",
+      description: "this is the api developed during our chas-advance project",
+      version: "0.1.0",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+        description: "This is a local dev server for documentation",
+      },
+    ],
+  },
+  apis: ["./routes/*.ts"],
 };
 const swaggerDocs = YAML.load(path.resolve("./src/swagger/swagger.yaml"));
 
@@ -52,16 +52,16 @@ app.use("/user_portal", userPortal);
 app.use("package_portal", packagePortal);
 
 app.get("/", (_req, res) => {
-	res
-		.status(200)
-		.json({ message: "Welcome to the internet, have a look around" });
+  res
+    .status(200)
+    .json({ message: "Welcome to the internet, have a look around" });
 });
 
-app.listen(port, () => {
-	console.log(`Server is listening on port ${port}`);
-	console.log("ENV vars:", {
-		SERVER_PORT: process.env.SERVER_PORT,
-		PORT: process.env.PORT,
-		NODE_ENV: process.env.NODE_ENV,
-	});
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server is listening on port ${port}`);
+  console.log("ENV vars:", {
+    SERVER_PORT: process.env.SERVER_PORT,
+    PORT: process.env.PORT,
+    NODE_ENV: process.env.NODE_ENV,
+  });
 });
