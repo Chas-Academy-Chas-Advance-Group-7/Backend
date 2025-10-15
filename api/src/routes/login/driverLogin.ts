@@ -20,7 +20,7 @@ driverLogin.get("/", (_req, res) => {
 
 //? - POST | Register driver account
 driverLogin.post("/register", async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, name } = req.body;
 
   const emailLowerCase = email.trim().toLowerCase();
   const isRedundantEmail = await db.pool.query(
@@ -28,14 +28,9 @@ driverLogin.post("/register", async (req, res) => {
     [emailLowerCase]
   );
 
-  if (
-    !username ||
-    typeof username !== "string" ||
-    username.trim().length === 0
-  ) {
+  if (!name || typeof name !== "string" || name.trim().length === 0) {
     res.status(400).json({
-      error:
-        "Username is requered and must only consist of alfabetical characters",
+      error: "Name is requered and must only consist of alfabetical characters",
     });
     return;
   }
@@ -56,8 +51,8 @@ driverLogin.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const insertDriver = await db.pool.query(
-      "INSERT INTO drivers (username, email, password) VALUES ($1, $2, $3) RETURNING *",
-      [username, emailLowerCase, hashedPassword]
+      "INSERT INTO drivers (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+      [name, emailLowerCase, hashedPassword]
     );
 
     const newDriver = insertDriver.rows[0];
