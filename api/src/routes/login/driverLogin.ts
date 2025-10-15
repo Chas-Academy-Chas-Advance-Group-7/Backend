@@ -14,6 +14,12 @@ driverLogin.get("/", (_req, res) => {
 	});
 });
 
+driverLogin.get("/env-check", (_req, res) => {
+	res.json({
+		jwtSecret: process.env.JWT_SECRET ? " Loaded" : "Missing",
+	});
+});
+
 //? - GET | Get driver profile / profile info
 
 //? - PUT | Edit account info for driver
@@ -30,7 +36,7 @@ driverLogin.post("/register", async (req, res) => {
 
 	if (!name || typeof name !== "string" || name.trim().length === 0) {
 		res.status(400).json({
-			error: "Name is requered and must only consist of alfabetical characters",
+			error: "Name is required and must only consist of alfabetical characters",
 		});
 		return;
 	}
