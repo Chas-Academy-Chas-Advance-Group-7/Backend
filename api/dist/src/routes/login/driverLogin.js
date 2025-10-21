@@ -9,18 +9,21 @@ driverLogin.get("/", (_req, res) => {
         message: "Välkommen till driver login routen",
     });
 });
+driverLogin.get("/env-check", (_req, res) => {
+    res.json({
+        jwtSecret: process.env.JWT_SECRET ? " Loaded" : "Missing",
+    });
+});
 //? - GET | Get driver profile / profile info
 //? - PUT | Edit account info for driver
 //? - POST | Register driver account
 driverLogin.post("/register", async (req, res) => {
-    const { email, password, username } = req.body;
+    const { email, password, name } = req.body;
     const emailLowerCase = email.trim().toLowerCase();
     const isRedundantEmail = await db.pool.query("SELECT * FROM drivers WHERE email = $1", [emailLowerCase]);
-    if (!username ||
-        typeof username !== "string" ||
-        username.trim().length === 0) {
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
         res.status(400).json({
-            error: "Username is requered and must only consist of alfabetical characters",
+            error: "Name is required and must only consist of alfabetical characters",
         });
         return;
     }
@@ -36,7 +39,7 @@ driverLogin.post("/register", async (req, res) => {
             return;
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const insertDriver = await db.pool.query("INSERT INTO drivers (username, email, password) VALUES ($1, $2, $3) RETURNING", [username, emailLowerCase, hashedPassword]);
+        const insertDriver = await db.pool.query("INSERT INTO drivers (name, email, password) VALUES ($1, $2, $3) RETURNING *", [name, emailLowerCase, hashedPassword]);
         const newDriver = insertDriver.rows[0];
         const payload = {
             sub: newDriver.id,
@@ -52,7 +55,7 @@ driverLogin.post("/register", async (req, res) => {
     catch (error) {
         console.error("Registration error:", error);
         res.status(500).json({
-            error: "Internal server error",
+            error: " No Irie me bredren, Internal server error",
         });
     }
 });
