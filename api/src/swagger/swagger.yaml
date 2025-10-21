@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Chas-advance
-  description: This is a server for a badly planned project the school is forcing us to do
-  version: 0.1.0
+  description: This is the swagger documentation for the functional parts of the Server
+  version: 0.2.0
 
 servers:
   - url: http://localhost:3000/
@@ -27,7 +27,7 @@ paths:
                     type: string
                     example: Welcome to the internet, have a look around
 
-  /loginportal:
+  /login_portal:
     get:
       tags:
         - login
@@ -45,10 +45,10 @@ paths:
                     type: string
                     example: Välkommen till login portalen
 
-  /loginportal/user_login:
+  /login_portal/user_login:
     get:
       tags:
-        - login
+        - user_login
       summary: Welcome route for user logins
       description: Returns a welcome message
       responses:
@@ -63,10 +63,98 @@ paths:
                     type: string
                     example: Välkommen till user login routen
 
-  /loginportal/driver_login:
+  /login_portal/user_login/register:
+    post:
+      tags:
+        - user_login
+      summary: Register a new user account
+      description: Creates a new user account and returns a JWT token upon success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - user_name
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: securePassword123
+                user_name:
+                  type: string
+                  example: Frodo Baggins
+      responses:
+        "201":
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "400":
+          description: Validation error (missing fields, invalid input)
+        "500":
+          description: Internal server error
+
+  /login_portal/user_login/login:
+    post:
+      tags:
+        - user_login
+      summary: Log in a registered user
+      description: Authenticates a user and returns a JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: securePassword123
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "400":
+          description: Missing required fields
+        "401":
+          description: Invalid credentials
+        "500":
+          description: Internal server error
+
+  /login_portal/driver_login:
     get:
       tags:
-        - login
+        - driver_login
       summary: Welcome route for driver logins
       description: Returns a welcome message
       responses:
@@ -80,6 +168,97 @@ paths:
                   message:
                     type: string
                     example: Välkommen till driver login routen
+
+  /login_portal/driver_login/register:
+    post:
+      tags:
+        - driver_login
+      summary: Register a new driver account
+      description: Creates a new driver account and returns a JWT token upon success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: driver@example.com
+                password:
+                  type: string
+                  minLength: 6
+                  example: strongPassword123
+                name:
+                  type: string
+                  example: Samwise Gamgee
+      responses:
+        "201":
+          description: Driver successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Driver registered successfully
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "400":
+          description: Validation error (missing fields, invalid name or password too short)
+        "500":
+          description: Internal server error
+
+  /login_portal/driver_login/login:
+    post:
+      tags:
+        - driver_login
+      summary: Login to a driver account
+      description: Authenticates a driver and returns a JWT token upon successful login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: driver@example.com
+                password:
+                  type: string
+                  example: strongPassword123
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "400":
+          description: Missing email or password
+        "401":
+          description: Invalid credentials
+        "500":
+          description: Internal server error
 
   /user_portal:
     get:
@@ -98,6 +277,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till user portalen
+
   /user_portal/sender_route:
     get:
       tags:
@@ -115,6 +295,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till sender routen
+
   /user_portal/reciever_route:
     get:
       tags:
@@ -150,6 +331,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till paket portalen
+
   /package_portal/tracking_packages:
     get:
       tags:
@@ -167,6 +349,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till tracking routen
+
   /package_portal/sensor_packages:
     get:
       tags:
@@ -184,6 +367,7 @@ paths:
                   message:
                     type: string
                     example: välkommen till sensor routen
+
   /employee_portal:
     get:
       tags:
@@ -201,6 +385,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till employee portalen
+
   /employee_portal/driver_routes:
     get:
       tags:
@@ -218,6 +403,7 @@ paths:
                   message:
                     type: string
                     example: Välkommen till driver routen
+
   /employee_portal/warehouse_routes:
     get:
       tags:
