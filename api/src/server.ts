@@ -1,3 +1,4 @@
+//!DONT FORGET TO AUTHENTICATE THE USERS
 console.log("Server file loaded, starting Express... Hopefully!");
 import express from "express";
 import dotenv from "dotenv";
@@ -64,7 +65,6 @@ app.get("/", (_req, res) => {
 		.status(200)
 		.json({ message: "Welcome to the internet, have a look around" });
 });
-
 app.listen(port, "0.0.0.0", () => {
 	console.log(`Server is listening on port ${port}`);
 	console.log("ENV vars:", {
