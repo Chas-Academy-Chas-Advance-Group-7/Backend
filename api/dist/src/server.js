@@ -1,3 +1,4 @@
+//!DONT FORGET TO AUTHENTICATE THE USERS
 console.log("Server file loaded, starting Express... Hopefully!");
 import express from "express";
 import dotenv from "dotenv";

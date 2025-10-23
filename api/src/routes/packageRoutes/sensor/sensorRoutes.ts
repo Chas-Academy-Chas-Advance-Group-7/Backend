@@ -9,27 +9,33 @@ sensorRoute.get("/", (_req, res) => {
 	res.status(200).json({ message: "Välkommen till sensor routen" });
 });
 
-sensorRoute.post("/in_transit", async (req, res) => {
-	const { accesKey, truck_id, sensors } = req.body;
+sensorRoute.post("/in_transit_sensor_readings", async (req, res) => {
+	const { accessKey, truck_id, sensors } = req.body;
 
-	if (!accesKey || !truck_id || sensors.isArray()) {
-		res.status(400).json({
-			message: "Acces key or truck_id is missing ",
+	// Validation
+	if (!accessKey || !truck_id) {
+		return res.status(400).json({
+			message: "Access key or truck_id is missing",
 		});
-		return;
 	}
 
-	if (accesKey !== process.env.SENSOR_ACCES_KEY) {
-		res.status(401).json({
-			message:
-				"The acces key that was submitted is false, no allowance admitted",
+	// Check access key
+	if (accessKey != process.env.SENSOR_ACCESS_KEY) {
+		return res.status(401).json({
+			message: "The access key that was submitted is invalid",
 		});
-		return;
 	}
 
 	try {
-		const query = `INSERT INTO sensor_reading (sensor_id, timestamp, temperature, humidity) VALUES ($1, $2, $3, $4)`;
-		sensors.forEach((sensor: any) => {
+		const query = `
+      INSERT INTO sensor_reading (sensor_id, temperature, humidity, reading_timestamp)
+      VALUES ($1, $2, $3, to_timestamp($4))
+      RETURNING *;
+    `;
+
+		const results = [];
+
+		for (const sensor of sensors) {
 			const values = [
 				sensor.sensor_id,
 				sensor.data.temperature,
@@ -37,10 +43,18 @@ sensorRoute.post("/in_transit", async (req, res) => {
 				sensor.data.timestamp,
 			];
 			const insertReading = await db.pool.query(query, values);
-		});
+			results.push(insertReading.rows[0]);
+		}
 
-		const;
-	} catch (error) {}
+		res.status(201).json({
+			message: "Sensor readings inserted successfully.",
+			data: results,
+			truck_id: truck_id,
+		});
+	} catch (error) {
+		console.error("Error inserting sensor readings:", error);
+		res.status(500).json({ message: "Internal server error." });
+	}
 });
 
 export default sensorRoute;
