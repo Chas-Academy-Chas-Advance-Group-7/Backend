@@ -1,6 +1,6 @@
 import { verifyToken } from "../middlewere/generate_jwt.js";
 export function authenticateJWT(req, res, next) {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers["authorization"];
     if (!authHeader) {
         return res.status(401).json({ message: "No token provided" });
     }
