@@ -299,7 +299,7 @@ paths:
   /user_portal/reciever_route:
     get:
       tags:
-        - user_reciever
+        - reciever_route
       summary: This route pertains all actions for recievers
       description: Returns a welcome message
       responses:
@@ -313,6 +313,116 @@ paths:
                   message:
                     type: string
                     example: välkommen till reciever routen
+
+  /user_portal/reciever_route/all_packages/{user_id}:
+    get:
+      tags:
+        - reciever_route
+      summary: Get all packages for a user
+      description: Retrieve all packages when the user authentication is a succes  .
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Sender user ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of packages sent by the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    package_id:
+                      type: integer
+                    sender_id:
+                      type: integer
+                    receiver_id:
+                      type: integer
+                    delivery_point_id:
+                      type: integer
+                    status:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+        "401":
+          description: User ID not found
+        "500":
+          description: Internal server error
+
+  /user_portal/reciever_route/single_package/{user_id}/{package_id}:
+    get:
+      tags:
+        - reciever_route
+      summary: Get a single package for a receiver
+      description: Retrieve a specific package by package ID for a receiver along with sender and delivery point info.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          description: Receiver user ID
+          required: true
+          schema:
+            type: integer
+        - name: package_id
+          in: path
+          description: Package ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Package details including sender, receiver, and delivery point info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  package_id:
+                    type: integer
+                  sender_id:
+                    type: integer
+                  receiver_id:
+                    type: integer
+                  delivery_point_id:
+                    type: integer
+                  status:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                  sender_email:
+                    type: string
+                  sender_name:
+                    type: string
+                  receiver_email:
+                    type: string
+                  receiver_name:
+                    type: string
+                  delivery_address:
+                    type: string
+                  delivery_postal_code:
+                    type: string
+                  delivery_city:
+                    type: string
+        "401":
+          description: User ID or Package ID not found
+        "500":
+          description: Internal server error
 
   /package_portal:
     get:
@@ -421,3 +531,10 @@ paths:
                   message:
                     type: string
                     example: Välkommen till warehouse routen
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -12,5 +12,5 @@
 		"target": "esnext",
 		"esModuleInterop": true
 	},
-	"include": ["src", "db"]
+	"include": ["src", "db", "generate-docs.ts", "swaggerConfig.ts"]
 }

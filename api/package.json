@@ -10,7 +10,7 @@
 		"dist": "node dist/server.js",
 		"typecheck": "tsc --noEmit -p tsconfig.json",
 		"build": "tsc -p tsconfig.build.json",
-		"docs:generate": "node generate-docs.ts"
+		"docs:generate": "npx tsc && node dist/generate-docs.js"
 	},
 	"type": "module",
 	"dependencies": {
@@ -23,7 +23,9 @@
 		"pg": "^8.16.3",
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^5.0.1",
-		"yamljs": "^0.3.0"
+		"yamljs": "^0.3.0",
+		"file-system": "^2.2.2",
+		"fs": "^0.0.1-security"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^6.0.0",
