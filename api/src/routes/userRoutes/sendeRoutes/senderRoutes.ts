@@ -1,5 +1,6 @@
 import express, { Router } from "express";
-
+import db from "../../../../db/db.js";
+import { authenticateJWT } from "../../../middlewere/auth.js";
 const senderRoute = express.Router();
 
 senderRoute.get("/", (_req, res) => {
@@ -8,6 +9,24 @@ senderRoute.get("/", (_req, res) => {
 
 // SENDER ROUTE
 //? - GET | show all orders
+senderRoute.get("/single_package/:id", authenticateJWT, async (req, res) => {
+	const user_id = Number(req.params.id);
+	if (!user_id) {
+		return res.status(401).json({ message: "user id could not be found" });
+	}
+
+	try {
+		const query = `SELECT * FROM package WHERE receiver_id = $1 RETURNING *`;
+		const values = [user_id];
+		const jsonData = await db.pool.query(query, values);
+
+		res.status(200).json(jsonData.rows);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal server error" });
+	}
+});
+
 //? - GET | Show all orders in transit (with sensor data maybe)
 //? - GET | Show sensor history for a package
 

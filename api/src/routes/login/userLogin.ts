@@ -65,6 +65,7 @@ userLogin.post("/register", async (req, res) => {
 		const payload: jwtPayload = {
 			sub: newUser.id,
 			role: "user",
+			name: newUser.user_name,
 			email: newUser.email,
 		};
 
@@ -120,6 +121,7 @@ userLogin.post("/login", async (req, res) => {
 		const payload: jwtPayload = {
 			sub: user.id,
 			role: "user",
+			name: user.user_name,
 			email: user.email,
 		};
 

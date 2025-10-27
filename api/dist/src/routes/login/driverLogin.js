@@ -44,6 +44,7 @@ driverLogin.post("/register", async (req, res) => {
         const payload = {
             sub: newDriver.id,
             role: "driver",
+            name: newDriver.name,
             email: newDriver.email,
         };
         const token = generateToken(payload);
@@ -88,6 +89,7 @@ driverLogin.post("/login", async (req, res) => {
         const payload = {
             sub: driver.id,
             role: "driver",
+            name: driver.name,
             email: driver.email,
         };
         const token = generateToken(payload);

@@ -41,6 +41,7 @@ userLogin.post("/register", async (req, res) => {
         const payload = {
             sub: newUser.id,
             role: "user",
+            name: newUser.user_name,
             email: newUser.email,
         };
         const token = generateToken(payload);
@@ -85,6 +86,7 @@ userLogin.post("/login", async (req, res) => {
         const payload = {
             sub: user.id,
             role: "user",
+            name: user.user_name,
             email: user.email,
         };
         const token = generateToken(payload);

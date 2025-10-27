@@ -1,1 +1,1 @@
-{"version":3,"file":"senderRoutes.d.ts","sourceRoot":"","sources":["../../../../../src/routes/userRoutes/sendeRoutes/senderRoutes.ts"],"names":[],"mappings":"AAEA,QAAA,MAAM,WAAW,4CAAmB,CAAC;AAoBrC,eAAe,WAAW,CAAC"}
+{"version":3,"file":"senderRoutes.d.ts","sourceRoot":"","sources":["../../../../../src/routes/userRoutes/sendeRoutes/senderRoutes.ts"],"names":[],"mappings":"AAGA,QAAA,MAAM,WAAW,4CAAmB,CAAC;AAsCrC,eAAe,WAAW,CAAC"}

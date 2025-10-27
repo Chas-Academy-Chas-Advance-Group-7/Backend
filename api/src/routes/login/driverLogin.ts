@@ -66,6 +66,7 @@ driverLogin.post("/register", async (req, res) => {
 		const payload: jwtPayload = {
 			sub: newDriver.id,
 			role: "driver",
+			name: newDriver.name,
 			email: newDriver.email,
 		};
 
@@ -122,6 +123,7 @@ driverLogin.post("/login", async (req, res) => {
 		const payload: jwtPayload = {
 			sub: driver.id,
 			role: "driver",
+			name: driver.name,
 			email: driver.email,
 		};
 
