@@ -4,45 +4,45 @@ import db from "../../../../db/db.js";
 const recieverRoute = express.Router();
 
 recieverRoute.get("/", (_req, res) => {
-	res.status(200).json({ message: "Välkommen till reciever routen" });
+  res.status(200).json({ message: "Välkommen till reciever routen" });
 });
 
 // RECIEVER ROUTE
 //! - GET | Show all orders by user (filter by status)
 
 recieverRoute.get("/all_packages/:id", authenticateJWT, async (req, res) => {
-	const user_id = Number(req.params.id);
-	if (!user_id) {
-		return res.status(401).json({ message: "user id could not be found" });
-	}
+  const user_id = Number(req.params.id);
+  if (!user_id) {
+    return res.status(401).json({ message: "user id could not be found" });
+  }
 
-	try {
-		const query = `SELECT * FROM package WHERE receiver_id = $1 RETURNING *`;
-		const values = [user_id];
-		const jsonData = await db.pool.query(query, values);
+  try {
+    const query = `SELECT * FROM package WHERE receiver_id = $1`;
+    const values = [user_id];
+    const jsonData = await db.pool.query(query, values);
 
-		res.status(200).json(jsonData.rows);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: "Internal server error" });
-	}
+    res.status(200).json(jsonData.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 //! - GET | show a specific package that has been orderd by the user
 
 recieverRoute.get(
-	"/single_package/:user_id/:package_id",
-	authenticateJWT,
-	async (req, res) => {
-		const user_id = req.params.user_id;
-		const package_id = req.params.package_id;
-		if (!user_id || !package_id) {
-			return res
-				.status(401)
-				.json({ message: "user id or package id could not be found" });
-		}
+  "/single_package/:user_id/:package_id",
+  authenticateJWT,
+  async (req, res) => {
+    const user_id = req.params.user_id;
+    const package_id = req.params.package_id;
+    if (!user_id || !package_id) {
+      return res
+        .status(401)
+        .json({ message: "user id or package id could not be found" });
+    }
 
-		try {
-			const query = `SELECT 
+    try {
+      const query = `SELECT 
     p.*, 
     receiver.email AS receiver_email, 
     receiver.user_name AS receiver_name, 
@@ -63,15 +63,15 @@ WHERE
     p.receiver_id = $1 
     AND p.package_id = $2;
  `;
-			const values = [user_id, package_id];
-			const jsonData = await db.pool.query(query, values);
+      const values = [user_id, package_id];
+      const jsonData = await db.pool.query(query, values);
 
-			res.status(200).json(jsonData.rows);
-		} catch (error) {
-			console.error(error);
-			res.status(500).json({ message: "Internal server error" });
-		}
-	}
+      res.status(200).json(jsonData.rows);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 );
 
 //? - GET | Show all orders that are in transit

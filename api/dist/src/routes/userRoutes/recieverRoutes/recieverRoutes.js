@@ -13,7 +13,7 @@ recieverRoute.get("/all_packages/:id", authenticateJWT, async (req, res) => {
         return res.status(401).json({ message: "user id could not be found" });
     }
     try {
-        const query = `SELECT * FROM package WHERE receiver_id = $1 RETURNING *`;
+        const query = `SELECT * FROM package WHERE receiver_id = $1`;
         const values = [user_id];
         const jsonData = await db.pool.query(query, values);
         res.status(200).json(jsonData.rows);
