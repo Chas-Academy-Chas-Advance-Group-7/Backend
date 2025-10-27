@@ -28,16 +28,7 @@ recieverRoute.get("/all_packages/:id", authenticateJWT, async (req, res) => {
 	}
 });
 //! - GET | show a specific package that has been orderd by the user
-// SELECT
-//     users.id,
-//     users.name,
-//     orders.product
-// FROM
-//     users
-// JOIN
-//     orders
-// ON
-//     users.id = orders.user_id;
+
 recieverRoute.get(
 	"/single_package/:user_id/:package_id",
 	authenticateJWT,

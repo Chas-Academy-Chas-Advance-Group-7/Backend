@@ -1,15 +1,12 @@
 import YAML from "yamljs";
 import path from "path";
-import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
-
+import swaggerJsdoc from "swagger-jsdoc";
 dotenv.config();
 
 const port = process.env.PORT;
 
-const swaggerJsdoc = require("swagger-jsdoc");
-
-const swaggerOptions = {
+const options = {
 	definition: {
 		openapi: "3.0.0",
 		info: {
@@ -19,14 +16,14 @@ const swaggerOptions = {
 		},
 		servers: [
 			{
-				url: `http://localhost:${port}`,
+				url: `https://express-api7-f6auegdrc4b0fheg.swedencentral-01.azurewebsites.net`,
 				description: "This is a local dev server for documentation",
 			},
 		],
 	},
 	apis: [path.resolve(__dirname, "./routes/*.ts")],
 };
-const swaggerDocs = YAML.load(path.resolve("./src/swagger/swagger.yaml"));
 
-const specs = swaggerJsdoc("swaggerOptions");
-module.exports = specs;
+const specs = swaggerJsdoc(options);
+
+export default specs;

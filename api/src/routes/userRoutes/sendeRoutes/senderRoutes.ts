@@ -16,7 +16,7 @@ senderRoute.get("/single_package/:id", authenticateJWT, async (req, res) => {
 	}
 
 	try {
-		const query = `SELECT * FROM package WHERE receiver_id = $1 RETURNING *`;
+		const query = `SELECT * FROM package WHERE sender_id = $1 RETURNING *`;
 		const values = [user_id];
 		const jsonData = await db.pool.query(query, values);
 

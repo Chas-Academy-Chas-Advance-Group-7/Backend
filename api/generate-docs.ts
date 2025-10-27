@@ -1,6 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const specs = require("./swaggerConfig");
+import fs from "fs";
+import path from "path";
+import specs from "./swaggerConfig.js";
 
 const docsDir = path.join(__dirname, "docs");
 
