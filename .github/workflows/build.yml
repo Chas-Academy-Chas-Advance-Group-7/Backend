@@ -67,7 +67,7 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: feature
+          publish_branch: gh-pages
           publish_dir: ./api/docs
 
   # dockerhubbuild:
