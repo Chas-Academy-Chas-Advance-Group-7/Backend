@@ -59,10 +59,10 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
 
       - name: Install dependencies and generate docs
         run: |
+          cd api
           npm install
           npm run docs:generate
           touch docs/.nojekyll
-        working-directory: ./api
 
       - name: Deploy docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
