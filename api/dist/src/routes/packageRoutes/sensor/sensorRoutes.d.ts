@@ -1,3 +1,3 @@
-declare const sensorRoute: import("express-serve-static-core").Router;
+declare const sensorRoute: any;
 export default sensorRoute;
 //# sourceMappingURL=sensorRoutes.d.ts.map

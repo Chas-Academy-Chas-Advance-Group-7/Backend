@@ -1,3 +1,3 @@
-declare const warehouseRoute: import("express-serve-static-core").Router;
+declare const warehouseRoute: any;
 export default warehouseRoute;
 //# sourceMappingURL=warehouseRoutes.d.ts.map

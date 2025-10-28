@@ -1,3 +1,3 @@
-declare const driverRoute: import("express-serve-static-core").Router;
+declare const driverRoute: any;
 export default driverRoute;
 //# sourceMappingURL=driverRoutes.d.ts.map

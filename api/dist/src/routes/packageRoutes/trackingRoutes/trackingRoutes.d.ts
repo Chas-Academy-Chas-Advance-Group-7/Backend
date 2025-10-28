@@ -1,3 +1,3 @@
-declare const trackingRoute: import("express-serve-static-core").Router;
+declare const trackingRoute: any;
 export default trackingRoute;
 //# sourceMappingURL=trackingRoutes.d.ts.map

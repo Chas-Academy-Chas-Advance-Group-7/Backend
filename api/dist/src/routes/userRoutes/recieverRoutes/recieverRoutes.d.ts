@@ -1,3 +1,3 @@
-declare const recieverRoute: import("express-serve-static-core").Router;
+declare const recieverRoute: any;
 export default recieverRoute;
 //# sourceMappingURL=recieverRoutes.d.ts.map

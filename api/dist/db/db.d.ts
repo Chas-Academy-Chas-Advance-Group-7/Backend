@@ -1,5 +1,5 @@
 declare const _default: {
-    pool: import("pg").Pool;
+    pool: any;
     testConnection: () => Promise<boolean>;
 };
 export default _default;
