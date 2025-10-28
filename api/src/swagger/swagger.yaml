@@ -281,7 +281,7 @@ paths:
   /user_portal/sender_route:
     get:
       tags:
-        - user_sender
+        - sender_route
       summary: This route pertains all actions for senders
       description: Returns a welcome message
       responses:
@@ -295,7 +295,44 @@ paths:
                   message:
                     type: string
                     example: Välkommen till sender routen
+  /user_portal/sender_route/all_packages/{user_id}:
+    get:
+      tags:
+        - sender_route
+      summary: View all packages in the system. Where the user is the sender
+      description: Retrieve all packages when the user authentication is a success.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Sender user ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of packages sent from the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    package_id:
+                      type: integer
+                    sender_id:
+                      type: integer
+                    receiver_id:
+                      type: integer
+                    delivery_point_id:
+                      type: integer
 
+        "401":
+          description: User ID not found
+        "500":
+          description: Internal server error
   /user_portal/reciever_route:
     get:
       tags:
@@ -318,20 +355,20 @@ paths:
     get:
       tags:
         - reciever_route
-      summary: Get all packages for a user
+      summary: View all packages in the system. Where the user is the reciever
       description: Retrieve all packages when the user authentication is a succes  .
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: Sender user ID
+          description: receiver_id user ID
           required: true
           schema:
             type: integer
       responses:
         "200":
-          description: List of packages sent by the user
+          description: List of packages in the progress of recieving by the user
           content:
             application/json:
               schema:
@@ -339,7 +376,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    package_id:
+                    id:
                       type: integer
                     sender_id:
                       type: integer
@@ -347,14 +384,7 @@ paths:
                       type: integer
                     delivery_point_id:
                       type: integer
-                    status:
-                      type: string
-                    created_at:
-                      type: string
-                      format: date-time
-                    updated_at:
-                      type: string
-                      format: date-time
+
         "401":
           description: User ID not found
         "500":
@@ -397,14 +427,6 @@ paths:
                     type: integer
                   delivery_point_id:
                     type: integer
-                  status:
-                    type: string
-                  created_at:
-                    type: string
-                    format: date-time
-                  updated_at:
-                    type: string
-                    format: date-time
                   sender_email:
                     type: string
                   sender_name:

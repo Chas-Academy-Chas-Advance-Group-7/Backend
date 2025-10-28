@@ -28,19 +28,21 @@ sensorRoute.post("/in_transit_sensor_readings", async (req, res) => {
 
 	try {
 		const query = `
-      INSERT INTO sensor_reading (sensor_id, temperature, humidity, reading_timestamp)
-      VALUES ($1, $2, $3, to_timestamp($4))
+      INSERT INTO sensor_reading (sensor_id, temperature, humidity, reading_timestamp,  stale )
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `;
 
 		const results = [];
 
 		for (const sensor of sensors) {
+			const timestamp = new Date();
 			const values = [
 				sensor.sensor_id,
 				sensor.data.temperature,
 				sensor.data.humidity,
-				sensor.data.timestamp,
+				timestamp,
+				sensor.stale ?? false,
 			];
 			const insertReading = await db.pool.query(query, values);
 			results.push(insertReading.rows[0]);
