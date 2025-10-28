@@ -40,7 +40,7 @@ const options = {
             },
         ],
     },
-    apis: [path.resolve(__dirname, "./routes/*.ts")],
+    apis: [path.resolve(__dirname, "../src/routes/*.ts")],
 };
 const specs = swaggerJsdoc(options);
 export default specs;
