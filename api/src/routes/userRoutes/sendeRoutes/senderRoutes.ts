@@ -4,27 +4,27 @@ import { authenticateJWT } from "../../../middlewere/auth.js";
 const senderRoute = express.Router();
 
 senderRoute.get("/", (_req, res) => {
-	res.status(200).json({ message: "Välkommen till sender routen" });
+  res.status(200).json({ message: "Välkommen till sender routen" });
 });
 
 // SENDER ROUTE
 //? - GET | show all orders
-senderRoute.get("/single_package/:id", authenticateJWT, async (req, res) => {
-	const user_id = Number(req.params.id);
-	if (!user_id) {
-		return res.status(401).json({ message: "user id could not be found" });
-	}
+senderRoute.get("/all_packages/:id", authenticateJWT, async (req, res) => {
+  const user_id = Number(req.params.id);
+  if (!user_id) {
+    return res.status(401).json({ message: "user id could not be found" });
+  }
 
-	try {
-		const query = `SELECT * FROM package WHERE sender_id = $1 RETURNING *`;
-		const values = [user_id];
-		const jsonData = await db.pool.query(query, values);
+  try {
+    const query = `SELECT * FROM package WHERE sender_id = $1`;
+    const values = [user_id];
+    const jsonData = await db.pool.query(query, values);
 
-		res.status(200).json(jsonData.rows);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: "Internal server error" });
-	}
+    res.status(200).json(jsonData.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 //? - GET | Show all orders in transit (with sensor data maybe)
