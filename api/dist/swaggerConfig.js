@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import swaggerJsdoc from "swagger-jsdoc";
 dotenv.config();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const options = {
@@ -40,7 +40,7 @@ const options = {
             },
         ],
     },
-    apis: [path.join(__dirname, "routes/**/*.ts")],
+    apis: [path.join(__dirname, "../src/routes/**/*.ts")],
 };
 const specs = swaggerJsdoc(options);
 export default specs;
