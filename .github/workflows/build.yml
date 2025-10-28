@@ -7,6 +7,9 @@ on: #Vad som triggar en workflow
     branches: ["main"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs: #jobs är stegen som körs sekvent av en virtuell maskin
   build:
     runs-on: ubuntu-latest
