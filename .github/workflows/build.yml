@@ -10,8 +10,24 @@ on: #Vad som triggar en workflow
 jobs: #jobs är stegen som körs sekvent av en virtuell maskin
   build:
     runs-on: ubuntu-latest
+
+    # permission: för CodeQL || att pusha till Github pages
+    # contents : write || tillåter CodeQl att pusha till Github pages
+    # security-events: write || tillåter CodeQLs existens
+
     steps: # steg i pipelinen
-      - uses: actions/checkout@v3 #Hämtar koden från repot
+      - name: Checkout code
+        uses: actions/checkout@v3 #/@v4 Hämtar koden från repot
+        with:
+          fetch-depth: 0 #Tillåter CodeQl att läsa all historik
+
+      - name: Initialize CodeQl # Initializerar CodeQL så den kan rapportera på säkerhetsbrister i i Bygg o test
+        uses: github/codeql-action/init@v3
+        with:
+          languages: JavaScript # JavaScript eller TypeScript?
+      - name: Perform  CodeQL Analysis # initierar processen av att analysera projektet och dess säkerhets scanning
+        uses: github/codeql-action/analyze@v3
+
       - name: Use Node.js
         uses: actions/setup-node@v3 #Sätter upp e node enviroment med v20
         with:
