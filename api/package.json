@@ -10,7 +10,7 @@
 		"dist": "node dist/server.js",
 		"typecheck": "tsc --noEmit -p tsconfig.json",
 		"build": "tsc -p tsconfig.build.json",
-		"docs:generate": "npx tsc && node dist/generate-docs.js"
+		"docs:generate": "tsc -p tsconfig.build.json && node dist/generate-docs.js"
 	},
 	"type": "module",
 	"dependencies": {
