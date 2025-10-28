@@ -61,6 +61,7 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         run: |
           npm install
           npm run docs:generate
+          touch ./docs/.nojekyll
         working-directory: ./api
 
       - name: Deploy docs to GitHub Pages
