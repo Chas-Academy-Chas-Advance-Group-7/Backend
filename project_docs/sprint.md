@@ -18,4 +18,4 @@ Sprint one started with discussing the different routes and types that the serve
 
 1. the express server has been initialized
 2. package.json updated.
-3. Preliminary routes has been setup, there may be some changes in this aspect (Image in docs folder)
+3. Preliminary routes has been setup, there may be some changes in this aspect (Image in docs folderr)
