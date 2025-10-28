@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import senderRoute from "./sendeRoutes/senderRoutes.js";
-import recieverRoute from "./recieverRoutes/recieverRoutes.js";
+import senderRoute from "./senderRoutes.js";
+import recieverRoute from "./recieverRoutes.js";
 const userPortal = express.Router();
 //*middleware for routes
 userPortal.use("/reciever_route", recieverRoute);
