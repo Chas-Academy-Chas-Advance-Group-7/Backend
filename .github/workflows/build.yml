@@ -68,7 +68,7 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./api/docs
+          publish_dir: api/docs
 
   # dockerhubbuild:
   #   runs-on: ubuntu-latest
