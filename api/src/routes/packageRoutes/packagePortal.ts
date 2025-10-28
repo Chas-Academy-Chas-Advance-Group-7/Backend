@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import trackingRoute from "./trackingRoutes/trackingRoutes.js";
-import sensorRoute from "./sensor/sensorRoutes.js";
+import trackingRoute from "./trackingRoutes.js";
+import sensorRoute from "./sensorRoutes.js";
 const packagePortal = express.Router();
 
 //route middleware
@@ -8,7 +8,7 @@ const packagePortal = express.Router();
 packagePortal.use("/tracking_packages", trackingRoute);
 packagePortal.use("/sensor_packages", sensorRoute);
 packagePortal.get("/", (_req, res) => {
-	res.status(200).json({ message: "Välkommen till package portalen" });
+  res.status(200).json({ message: "Välkommen till package portalen" });
 });
 
 export default packagePortal;

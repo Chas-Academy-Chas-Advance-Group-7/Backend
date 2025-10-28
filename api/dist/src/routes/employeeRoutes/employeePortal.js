@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import warehouseRoute from "./warehouseRoutes/warehouseRoutes.js";
-import driverRoute from "./driverRoutes.ts/driverRoutes.js";
+import warehouseRoute from "./warehouseRoutes.js";
+import driverRoute from "./driverRoutes.js";
 const employeePortal = express.Router();
 //*MIDDLEWARE FOR DRIVERS AND LOGISTICS
 employeePortal.use("/warehouse_routes", warehouseRoute);
