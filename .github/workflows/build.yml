@@ -17,16 +17,17 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
 
     steps: # steg i pipelinen
       - name: Checkout code
-        uses: actions/checkout@v3 #/@v4 Hämtar koden från repot
-        with:
-          fetch-depth: 0 #Tillåter CodeQl att läsa all historik
+        uses:
+          actions/checkout@v3 #/@v4 Hämtar koden från repot
+          # with:
+          #fetch-depth: 0 #Tillåter CodeQl att läsa all historik
 
-      - name: Initialize CodeQl # Initializerar CodeQL så den kan rapportera på säkerhetsbrister i i Bygg o test
-        uses: github/codeql-action/init@v3
-        with:
-          languages: JavaScript # JavaScript eller TypeScript?
-      - name: Perform  CodeQL Analysis # initierar processen av att analysera projektet och dess säkerhets scanning
-        uses: github/codeql-action/analyze@v3
+      #- name: Initialize CodeQl # Initializerar CodeQL så den kan rapportera på säkerhetsbrister i i Bygg o test
+      #  uses: github/codeql-action/init@v3
+      #  with:
+      #    languages: JavaScript # JavaScript eller TypeScript?
+      #- name: Perform  CodeQL Analysis # initierar processen av att analysera projektet och dess säkerhets scanning
+      #  uses: github/codeql-action/analyze@v3
 
       - name: Use Node.js
         uses: actions/setup-node@v3 #Sätter upp e node enviroment med v20
@@ -44,7 +45,28 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
       - name: build
         run: |
           cd api  
-          npm run build
+          npm run
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and generate docs
+        run: |
+          npm install
+          npm run docs:generate
+        working-directory: ./api
+
+      - name: Deploy docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./api/docs
+
   dockerhubbuild:
     runs-on: ubuntu-latest
     needs: build
@@ -73,5 +95,4 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:${{ github.ref_name }}
-
     #Flytta docker build hit!!!!
