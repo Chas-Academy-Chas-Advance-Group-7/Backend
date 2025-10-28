@@ -9,7 +9,69 @@ recieverRoute.get("/", (_req, res) => {
 
 // RECIEVER ROUTE
 //! - GET | Show all orders by user (filter by status)
-
+/**
+ * @swagger
+ * /all_packages/{id}:
+ *   get:
+ *     summary: Get all packages for a specific user
+ *     description: Retrieves all packages where the receiver ID matches the provided user ID.
+ *     tags:
+ *       - Packages
+ *     security:
+ *       - bearerAuth: []   # Requires JWT authentication
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The unique ID of the user (receiver)
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all packages for the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   package_id:
+ *                     type: integer
+ *                     example: 101
+ *                   receiver_id:
+ *                     type: integer
+ *                     example: 42
+ *                   sender_id:
+ *                     type: integer
+ *                     example: 17
+ *                   status:
+ *                     type: string
+ *                     example: "In Transit"
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *       401:
+ *         description: Unauthorized or missing user ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "user id could not be found"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal server error"
+ */
 recieverRoute.get("/all_packages/:id", authenticateJWT, async (req, res) => {
   const user_id = Number(req.params.id);
   if (!user_id) {

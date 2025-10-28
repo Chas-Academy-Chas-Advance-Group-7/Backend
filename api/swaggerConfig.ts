@@ -11,25 +11,39 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const options = {
-	definition: {
-		openapi: "3.0.0",
-		info: {
-			title: "Chas-advance",
-			description: "this is the api developed during our chas-advance project",
-			version: "0.1.0",
-		},
-		servers: [
-			{
-				url: `http://localhost:${port}/`,
-				description: "Local dev server",
-			},
-			{
-				url: `https://express-api7-f6auegdrc4b0fheg.swedencentral-01.azurewebsites.net`,
-				description: "This is a local dev server for documentation",
-			},
-		],
-	},
-	apis: [path.resolve(__dirname, "./routes/*.ts")],
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Chas-advance",
+      description: "This is the API developed during our Chas-Advance project",
+      version: "0.1.0",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}/`,
+        description: "Local development server",
+      },
+      {
+        url: `https://express-api7-f6auegdrc4b0fheg.swedencentral-01.azurewebsites.net`,
+        description: "Production server (Azure)",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+  apis: [path.resolve(__dirname, "./routes/*.ts")],
 };
 
 const specs = swaggerJsdoc(options);
