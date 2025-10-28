@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import db from "../../../../db/db.js";
-import { authenticateJWT } from "../../../middlewere/auth.js";
+import db from "../../../db/db.js";
+import { authenticateJWT } from "../../middlewere/auth.js";
 const senderRoute = express.Router();
 
 senderRoute.get("/", (_req, res) => {
