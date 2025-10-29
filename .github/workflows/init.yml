@@ -2,7 +2,7 @@ name: Azure setup
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["feature"]
   workflow_dispatch:
 
 jobs:
@@ -19,16 +19,16 @@ jobs:
 
       - name: Build and test API image
         run: |
-          docker build -t ${{ secrets.ACR_URL }}/api:latestLogin ./api
-          docker run --rm ${{ secrets.ACR_URL }}/api:latestLogin npm test
+          docker build -t ${{ secrets.ACR_URL }}/api:package ./api
+          docker run --rm ${{ secrets.ACR_URL }}/api:package npm test
 
       - name: Push Docker image to ACR
         run: |
-          docker push ${{ secrets.ACR_URL }}/api:latestLogin
+          docker push ${{ secrets.ACR_URL }}/api:package
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: "express-api7"
-          images: ${{ secrets.ACR_URL }}/api:latestLogin
+          images: ${{ secrets.ACR_URL }}/api:package
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}

@@ -12,7 +12,7 @@ driverRoute.get("/", (_req, res) => {
 
 /**
  * @swagger
- * employee_portal/driver_routes/register_to_truck/{driver_id}/{truck_id}:
+ * /employee_portal/driver_routes/register_to_truck/{driver_id}/{truck_id}:
  *   patch:
  *     summary: Assign or update a driver's truck
  *     description: Updates the `truck_id` for an existing driver by their ID. This is a partial update (PATCH) since only the truck assignment changes.

@@ -517,6 +517,41 @@ paths:
                   message:
                     type: string
                     example: Välkommen till employee portalen
+  /employee_portal/driver_routes:
+    get:
+      tags:
+        - employee_driver
+      summary: This route pertains all actions for drivers
+      description: Returns a welcome message
+      responses:
+        "200":
+          description: Returns a string verifying its working
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Välkommen till driver routen
+
+  /employee_portal:
+  get:
+    tags:
+      - employee_portal
+    summary: This route pertains all actions for employees
+    description: Returns a welcome message
+    responses:
+      "200":
+        description: Returns a string verifying its working
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Välkommen till employee portalen
 
   /employee_portal/driver_routes:
     get:
@@ -536,15 +571,30 @@ paths:
                     type: string
                     example: Välkommen till driver routen
 
-  /employee_portal/warehouse_routes:
-    get:
+  /employee_portal/driver_routes/register_to_truck/{driver_id}/{truck_id}:
+    patch:
+      summary: Assign or update a driver's truck
       tags:
-        - employee_warehouse
-      summary: This route pertains all actions for the warehouse
-      description: Returns a welcome message
+        - employee_driver
+      description: Updates the `truck_id` for an existing driver by their ID. Only the truck assignment changes.
+      parameters:
+        - in: path
+          name: driver_id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the driver to update.
+          example: 5
+        - in: path
+          name: truck_id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the truck to assign to the driver.
+          example: 12
       responses:
-        "200":
-          description: Returns a string verifying its working
+        200:
+          description: Driver successfully registered to a truck.
           content:
             application/json:
               schema:
@@ -552,7 +602,142 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Välkommen till warehouse routen
+                    example: Driver successfully registered to truck
+                  driver:
+                    type: object
+                    description: The updated driver record.
+                    properties:
+                      id:
+                        type: integer
+                        example: 5
+                      name:
+                        type: string
+                        example: Alex Johnson
+                      truck_id:
+                        type: integer
+                        example: 12
+        400:
+          description: Invalid or missing driver or truck ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Driver Id is required and must be a number
+        404:
+          description: Driver not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Driver not found
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /employee_portal/driver_routes/load_package/{package_id}/{truck_id}:
+    patch:
+      summary: Load a package onto a truck
+      description: Assigns a package to a truck and updates its status to "loaded for delivery".
+      tags:
+        - employee_driver
+      parameters:
+        - in: path
+          name: package_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the package to be loaded
+        - in: path
+          name: truck_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the truck to load the package onto
+      responses:
+        "200":
+          description: Package successfully loaded onto the truck
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Package succesfully loaded on the truck
+                  result:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      truck_id:
+                        type: integer
+                        example: 456
+                      status:
+                        type: string
+                        example: loaded for delivery
+        "400":
+          description: Bad Request (missing or invalid IDs, or package already loaded)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: This package is already loaded onto another truck
+        "404":
+          description: Package or truck not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: the package or truck you are trying to register could not be found in the database
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+
+
+  /employee_portal/warehouse_routes:
+  get:
+    tags:
+      - employee_warehouse
+    summary: This route pertains all actions for the warehouse
+    description: Returns a welcome message
+    responses:
+      "200":
+        description: Returns a string verifying its working
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Välkommen till warehouse routen
 
 components:
   securitySchemes:
