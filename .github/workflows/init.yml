@@ -2,7 +2,7 @@ name: Azure setup
 
 on:
   push:
-    branches: ["feature"]
+    branches: ["dev"]
   workflow_dispatch:
 
 jobs:
