@@ -499,6 +499,97 @@ paths:
                   message:
                     type: string
                     example: välkommen till sensor routen
+  /package_portal/sensor_packages/in_transit_sensor_readings:
+  post:
+    summary: Insert in-transit sensor readings
+    description: >
+      Receives sensor telemetry from a truck and stores temperature, humidity, and reading metadata.
+      Requires a valid access key.
+    tags:
+      - Sensors
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - accessKey
+              - truck_id
+              - sensors
+            properties:
+              accessKey:
+                type: string
+                description: Access key to authorize sensor data submission
+                example: "ABC123SECRET"
+              truck_id:
+                type: string
+                description: Unique ID of the truck sending the sensor data
+                example: "TRUCK_09A81"
+              sensors:
+                type: array
+                description: Array of sensor payloads
+                items:
+                  type: object
+                  required:
+                    - sensor_id
+                    - data
+                  properties:
+                    sensor_id:
+                      type: string
+                      description: Unique sensor identifier
+                      example: "TEMP_SENSOR_01"
+                    data:
+                      type: object
+                      required:
+                        - temperature
+                        - humidity
+                      properties:
+                        temperature:
+                          type: number
+                          format: float
+                          example: 4.7
+                        humidity:
+                          type: number
+                          format: float
+                          example: 61.2
+                    stale:
+                      type: boolean
+                      description: Indicates if the data is stale or delayed
+                      example: false
+    responses:
+      "201":
+        description: Sensor readings inserted successfully
+        content:
+          application/json:
+            example:
+              message: "Sensor readings inserted successfully."
+              truck_id: "TRUCK_09A81"
+              data:
+                - sensor_id: "TEMP_SENSOR_01"
+                  temperature: 4.7
+                  humidity: 61.2
+                  reading_timestamp: "2025-02-08T12:44:22.000Z"
+                  stale: false
+      "400":
+        description: Missing access key or truck ID
+        content:
+          application/json:
+            example:
+              message: "Access key or truck_id is missing"
+      "401":
+        description: Invalid access key
+        content:
+          application/json:
+            example:
+              message: "The access key that was submitted is invalid"
+      "500":
+        description: Internal server error
+        content:
+          application/json:
+            example:
+              message: "Internal server error."
+
 
   /employee_portal:
     get:

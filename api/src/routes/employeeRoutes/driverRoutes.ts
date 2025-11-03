@@ -4,7 +4,7 @@ import db from "../../../db/db.js";
 const driverRoute = express.Router();
 
 driverRoute.get("/", (_req, res) => {
-  res.status(200).json({ message: "välkommen till driver routen" });
+	res.status(200).json({ message: "välkommen till driver routen" });
 });
 
 // DRIVER ROUTE
@@ -88,104 +88,104 @@ driverRoute.get("/", (_req, res) => {
  *                   example: Internal server error
  */
 driverRoute.patch(
-  "/register_to_truck/:driver_id/:truck_id",
-  async (req, res) => {
-    const { driver_id, truck_id } = req.params;
+	"/register_to_truck/:driver_id/:truck_id",
+	async (req, res) => {
+		const { driver_id, truck_id } = req.params;
 
-    const parsedDriverId = Number(driver_id);
-    const parsedTruckId = Number(truck_id);
+		const parsedDriverId = Number(driver_id);
+		const parsedTruckId = Number(truck_id);
 
-    if (!parsedDriverId || isNaN(parsedDriverId)) {
-      res.status(400).json({
-        error: "Driver Id is required and must be a number",
-      });
-      return;
-    }
+		if (!parsedDriverId || isNaN(parsedDriverId)) {
+			res.status(400).json({
+				error: "Driver Id is required and must be a number",
+			});
+			return;
+		}
 
-    if (!parsedTruckId || isNaN(parsedTruckId)) {
-      res.status(400).json({
-        error: "Truck Id is required and must be a number",
-      });
-      return;
-    }
+		if (!parsedTruckId || isNaN(parsedTruckId)) {
+			res.status(400).json({
+				error: "Truck Id is required and must be a number",
+			});
+			return;
+		}
 
-    try {
-      const result = await db.pool.query(
-        `UPDATE drivers
+		try {
+			const result = await db.pool.query(
+				`UPDATE drivers
        SET truck_id = $1
        WHERE id = $2
        RETURNING *;`,
-        [parsedTruckId, parsedDriverId]
-      );
+				[parsedTruckId, parsedDriverId]
+			);
 
-      if (result.rowCount === 0) {
-        res.status(404).json({
-          error: "Driver not found",
-        });
-        return;
-      }
+			if (result.rowCount === 0) {
+				res.status(404).json({
+					error: "Driver not found",
+				});
+				return;
+			}
 
-      res.status(200).json({
-        message: "Driver successfully registered to truck",
-        driver: result.rows[0],
-      });
-    } catch (error) {
-      console.error("Error registering deriver to truck", error);
-      res.status(500).json({
-        error: "Internal server error",
-      });
-    }
-  }
+			res.status(200).json({
+				message: "Driver successfully registered to truck",
+				driver: result.rows[0],
+			});
+		} catch (error) {
+			console.error("Error registering deriver to truck", error);
+			res.status(500).json({
+				error: "Internal server error",
+			});
+		}
+	}
 );
 
 //ändra packetens status status får va varchar med(i lagret, in_transit, delivered)
 
 //? - PATCH | Scan QR/barcode to load package onto truck
 driverRoute.patch("/load_package/:package_id/:truck_id", async (req, res) => {
-  const package_id = Number(req.params.package_id);
-  const truck_id = Number(req.params.truck_id);
-  if (!package_id || !truck_id) {
-    res
-      .status(400)
-      .json({ message: "The package id or truck id could not be reqognized" });
-    return;
-  }
-  try {
-    const existing_package = await db.pool.query(
-      `SELECT * FROM package WHERE id = $1`,
-      [package_id]
-    );
-    const existing_truck = await db.pool.query(
-      `SELECT * FROM trucks WHERE id = $1`,
-      [truck_id]
-    );
-    if (existing_package.rowCount === 0 || existing_truck.rowCount === 0) {
-      res.status(404).json({
-        message:
-          "the package or truck you are trying to register could not be found in the database",
-      });
-      return;
-    }
-    if (existing_package.rows[0].truck_id) {
-      return res.status(400).json({
-        message: "This package is already loaded onto another truck",
-      });
-    }
-    const query = `UPDATE package SET truck_id = $1, status = $2 WHERE id = $3 RETURNING *`;
-    const values = [truck_id, "loaded for delivery", package_id];
+	const package_id = Number(req.params.package_id);
+	const truck_id = Number(req.params.truck_id);
+	if (!package_id || !truck_id) {
+		res
+			.status(400)
+			.json({ message: "The package id or truck id could not be reqognized" });
+		return;
+	}
+	try {
+		const existing_package = await db.pool.query(
+			`SELECT * FROM package WHERE id = $1`,
+			[package_id]
+		);
+		const existing_truck = await db.pool.query(
+			`SELECT * FROM trucks WHERE id = $1`,
+			[truck_id]
+		);
+		if (existing_package.rowCount === 0 || existing_truck.rowCount === 0) {
+			res.status(404).json({
+				message:
+					"the package or truck you are trying to register could not be found in the database",
+			});
+			return;
+		}
+		if (existing_package.rows[0].truck_id) {
+			return res.status(400).json({
+				message: "This package is already loaded onto another truck",
+			});
+		}
+		const query = `UPDATE package SET truck_id = $1, status = $2 WHERE id = $3 RETURNING *`;
+		const values = [truck_id, "loaded for delivery", package_id];
 
-    const package_update = await db.pool.query(query, values);
+		const package_update = await db.pool.query(query, values);
 
-    res.status(200).json({
-      message: "Package succesfully loaded on the truck",
-      result: package_update.rows[0],
-    });
-  } catch (error) {
-    console.error("Error registering the package to the truck", error);
-    res.status(500).json({
-      error: "Internal server error",
-    });
-  }
+		res.status(200).json({
+			message: "Package succesfully loaded on the truck",
+			result: package_update.rows[0],
+		});
+	} catch (error) {
+		console.error("Error registering the package to the truck", error);
+		res.status(500).json({
+			error: "Internal server error",
+		});
+	}
 });
 // param pack_id
 
