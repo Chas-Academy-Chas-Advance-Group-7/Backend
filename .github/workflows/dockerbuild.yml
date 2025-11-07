@@ -36,7 +36,7 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
         uses: actions/checkout@v4
 
       - name: Build database image
-        run: docker build -t postgres_db:${{ github.ref_name }} ./db
+        run: docker build -t postgres_db:${{ github.ref_name }} ./api
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
