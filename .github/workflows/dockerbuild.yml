@@ -64,8 +64,8 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
       - name: run di bad man test mahn, mi a fi see di docker be irie mi bredren BOOM. (AKA Run docker)
         run: docker run --rm express-api:${{github.ref_name}} npm test
 
-      - name: Build the ting yah kno BOOM
-        run: docker run express-api:${{github.ref_name}} npm run build
+      #- name: Build the ting yah kno BOOM
+      #  run: docker run express-api:${{github.ref_name}} npm run build
 
       - name: login into di dockerhub ting
         uses: docker/login-action@v3

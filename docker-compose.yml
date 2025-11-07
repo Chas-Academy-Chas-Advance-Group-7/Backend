@@ -6,9 +6,9 @@ services:
     container_name: PostgresCont
     restart: always
     environment:
-      - POSTGRES_USER=${DOCKER_DB_USER} #postgres
-      - POSTGRES_PASSWORD=${DOCKER_DB_PASSWORD} #postgres123
-      - POSTGRES_DB=${DOCKER_DB_NAME} #chas_advance_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=chas_advance_db
     #  - POSTGRES_PORT=${DOCKER_DB_PORT} #5432
     #  - POSTGRES_HOST=${DOCKER_DB_HOST} #localhost
     ports:
@@ -18,10 +18,7 @@ services:
       - ./tables/init.sql
     healthcheck:
       test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB -h localhost",
-        ]
+        ["CMD-SHELL", "pg_isready -U postgres -d chas_advance_db -h localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,15 +31,15 @@ services:
       postgres_db:
         condition: service_healthy
     ports:
-      - "3000:80"
+      - "3000:300"
     environment:
       - SERVER_PORT=3000
-      - PORT=80
+      - PORT=3000
       - DATABASE_URL=${DATABASE_URL}
       - JWT_SECRET=${JWT_SECRET}
-      - PGUSER=${DOCKER_DB_USER}
-      - PGPASSWORD=${DOCKER_DB_PASSWORD}
-      - PGDATABASE=${DOCKER_DB_NAME}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
       - PGHOST=postgres_db
       - PGPORT=5432
     command: ["npm", "start"]
