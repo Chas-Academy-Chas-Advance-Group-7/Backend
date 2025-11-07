@@ -1,0 +1,84 @@
+name: Docker_Production #namnet på ens workflow
+
+on: #Vad som triggar en workflow
+  push:
+    branches: ["dev", "feature-docker"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  security-events: write # tillåter CodeQLs existens
+
+jobs: #jobs är stegen som körs sekvent av en virtuell maskin
+  CodeQL:
+    runs-on: ubuntu-latest
+
+    steps: # steg i pipelinen
+      - name: Checkout code
+        uses: actions/checkout@v3 #/@v4 Hämtar koden från repot
+        with:
+          fetch-depth: 0 #Tillåter CodeQl att läsa all historik
+
+      - name: Initialize CodeQl # Initializerar CodeQL så den kan rapportera på säkerhetsbrister i i Bygg o test
+        uses: github/codeql-action/init@v3
+        with:
+          languages: JavaScript # JavaScript eller TypeScript?
+      - name: Perform  CodeQL Analysis # initierar processen av att analysera projektet och dess säkerhets scanning
+        uses: github/codeql-action/analyze@v3
+
+  docker-DB:
+    runs-on: ubuntu-latest
+    needs: CodeQL
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build database image
+        run: docker build -t postgres_db:${{ github.ref_name }} ./db
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Tag and push database image
+        run: |
+          docker tag postgres_db:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/postgres_db:latest
+          docker tag postgres_db:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/postgres_db:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/postgres_db:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/postgres_db:${{ github.ref_name }}
+
+  docker-EXPRESS:
+    runs-on: ubuntu-latest
+    needs: docker-DB
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker
+        run: docker build -t express-api:${{github.ref_name}} ./api
+
+      - name: run di bad man test mahn, mi a fi see di docker be irie mi bredren BOOM. (AKA Run docker)
+        run: docker run --rm express-api:${{github.ref_name}} npm test
+
+      - name: Build the ting yah kno BOOM
+        run: docker run express-api:${{github.ref_name}} npm run build
+
+      - name: login into di dockerhub ting
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Mark te ting for latea rastaman, yu gwan be irie and smell like marley. Den yu would want di reminder mahn BOMBA. (AKA tag image for dockerhub)
+        run: |
+          docker tag express-api:${{github.ref_name}} ${{ secrets.DOCKER_USERNAME }}/chas-advance:latest
+          docker tag express-api:${{github.ref_name}} ${{ secrets.DOCKER_USERNAME }}/chas-advance:${{ github.ref_name }}
+
+      - name: dock ya bad man ting behind and push ti mi scream (AKA push docker to dockerhub)
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:${{ github.ref_name }}

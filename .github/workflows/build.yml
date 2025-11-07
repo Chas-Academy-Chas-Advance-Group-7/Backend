@@ -67,9 +67,38 @@ jobs: #jobs är stegen som körs sekvent av en virtuell maskin
           publish_branch: gh-pages
           publish_dir: ./api/docs
 
-  dockerhubbuild:
+  docker-DB:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker
+        run: docker build -t express-api:${{github.ref}} ./api
+
+      - name: run di bad man test mahn, mi a fi see di docker be irie mi bredren BOOM. (AKA Run docker)
+        run: docker run --rm express-api:${{github.ref}} npm test
+
+      - name: login into di dockerhub ting
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Mark te ting for latea rastaman, yu gwan be irie and smell like marley. Den yu would want di reminder mahn BOMBA. (AKA tag image for dockerhub)
+        run: |
+          docker tag express-api:${{github.ref}} ${{ secrets.DOCKER_USERNAME }}/chas-advance:latest
+          docker tag express-api:${{github.ref}} ${{ secrets.DOCKER_USERNAME }}/chas-advance:${{ github.ref_name }}
+
+      - name: dock ya bad man ting behind and push ti mi scream (AKA push docker to dockerhub)
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/chas-advance:${{ github.ref_name }}
+
+  docker-EXPRESS:
+    runs-on: ubuntu-latest
+    needs: docker-DB
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
